@@ -1,8 +1,5 @@
-using Discord;
 using HarmonyLib;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 
 namespace WaterAssetRestorer.Patches

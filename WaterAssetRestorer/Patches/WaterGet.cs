@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 namespace WaterAssetRestorer.Patches
 {
