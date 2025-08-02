@@ -75,51 +75,5 @@ namespace WaterAssetRestorer.Patches
             WaterAssetRestorer.Logger.LogInfo($"Material '{materialToFind}' search completed. Found: {(materialToReturn != null ? "Yes" : "No")}");
             return materialToReturn;
         }
-
-        /// <summary>
-        /// used to recreate the standard lake water material based on values I found through UnityExplorer
-        /// </summary>
-        /// <returns>the water material or null if not found</returns>
-        public static Material build_lake_water() 
-        {
-            Material mat = null;
-            Shader shader = null;
-
-            //if LethalLevelLoader is installed, use its reference of the water shader since it caches it early to avoid
-            //accidentally using an empty shader named identical to the target shader from an AssetBundle
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("imabatby.lethallevelloader"))
-            {
-                WaterAssetRestorer.Logger.LogDebug("Using LLL's reference to water shader");
-                shader = LethalLevelLoader.LevelLoader.vanillaWaterShader;
-            }
-            //if LLL didn't find it (either because it's not installed or failed for some reason), I look for it
-            if(shader == null)
-            {
-                WaterAssetRestorer.Logger.LogDebug("Getting vanilla water shader");
-                shader = Shader.Find("Shader Graphs/WaterShaderHDRP");
-            }
-
-            if (shader != null)
-            {
-                WaterAssetRestorer.Logger.LogDebug("Found WaterShaderHDRP shader.");
-                mat=new Material(shader);
-
-                mat.color=new Color(0.0f, 0.0f, 0.0f, 0.0f);
-                mat.doubleSidedGI = false;
-                mat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                mat.EnableKeyword("_ENABLE_FOG_ON_TRANSPARENT");
-                mat.EnableKeyword("_DISSABLE_SSR_TRANSPARENT");
-                mat.enableInstancing = true;
-                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
-                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
-                mat.shaderKeywords = new string[] { "_DISSABLE_SSR_TRANSPARENT", "_ENABLE_FOG_ON_TRANSPARENT", "_SURFACE_TYPE_TRANSPARENT"};
-
-            }
-            else
-            {
-                WaterAssetRestorer.Logger.LogWarning("Could not find WaterShaderHDRP shader.");
-            }
-            return mat;
-        }
     }
 }

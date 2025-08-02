@@ -24,28 +24,9 @@ namespace WaterAssetRestorer.Patches
             WAR_company_flooded = WaterGet.GET_material("Water_mat_04");
             WAR_cave = WaterGet.GET_material("CaveWater", "CaveWaterTile");
             WAR_pool = WaterGet.GET_material("PoolWater", "PoolTile");
-            //WAR_adamance_march_vow = WaterGet.build_lake_water();
-            WAR_adamance_march_vow = search("VowWater");
+            //WAR_adamance_march_vow = WaterGet.GET_material("VowWater");
 
-        }
-
-        public static Material search(string name) 
-        {
-            Material foundMat = null;
-            Material[] allMaterials = Resources.LoadAll<Material>("");
-
-            foreach (var mat in allMaterials)
-            {
-                Debug.Log($"Found material: {mat.name} | Shader: {mat.shader.name}");
-                if (mat.name == name) // or whatever you're looking for
-                {
-                    foundMat = mat;
-                    Debug.Log("Found the material: " + mat.name);
-                    break;
-                }
-            }
-            return foundMat;
-        }
+        }                
     }
 
     [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.FinishGeneratingNewLevelClientRpc))]
@@ -69,66 +50,5 @@ namespace WaterAssetRestorer.Patches
             WaterSet.SET_material("PoolWater", WaterInit.WAR_pool);
             //WaterSet.SET_material("VowWater", WaterInit.WAR_adamance_march_vow);
         }
-
-        [HarmonyPostfix]
-        public static void WaterPropertiesDebug(RoundManager __instance) 
-        { 
-            WaterAssetRestorer.Logger.LogDebug($"Current level is: {__instance.currentLevel.name}");
-            if (__instance.currentLevel.name== "VowLevel")
-            {
-                Material mat = null;
-                mat=GameObject.Find("WaterBig").GetComponent<Renderer>().sharedMaterial;
-
-                LogMaterialProperties(mat);
-
-            }
-        }
-        public static void LogMaterialProperties(Material mat) 
-        {
-            if (mat != null)
-            {
-                Shader shader = mat.shader;
-                int count = shader.GetPropertyCount();
-                Debug.Log($"--- Dumping Material: {mat.name} ---");
-
-                for (int i = 0; i < count; i++)
-                {
-                    string propName = shader.GetPropertyName(i);
-                    ShaderPropertyType type = shader.GetPropertyType(i);
-
-                    switch (type)
-                    {
-                        case ShaderPropertyType.Color:
-                            Debug.Log($"Color: {propName} = {mat.GetColor(propName)}");
-                            break;
-
-                        case ShaderPropertyType.Vector:
-                            Debug.Log($"Vector: {propName} = {mat.GetVector(propName)}");
-                            break;
-
-                        case ShaderPropertyType.Float:
-                        case ShaderPropertyType.Range:
-                            Debug.Log($"Float: {propName} = {mat.GetFloat(propName)}");
-                            break;
-
-                        case ShaderPropertyType.Texture:
-                            Debug.Log($"Texture: {propName} = {mat.GetTexture(propName)}");
-                            break;
-
-                        default:
-                            Debug.Log($"Unknown: {propName}");
-                            break;
-                    }
-                }
-
-                Debug.Log($"Shader Keywords: {string.Join(", ", mat.shaderKeywords)}");
-                Debug.Log("--- End Dump ---");
-            }
-            else
-            {
-                WaterAssetRestorer.Logger.LogWarning("Water material not found.");
-            }
-        }
-
     }
 }
