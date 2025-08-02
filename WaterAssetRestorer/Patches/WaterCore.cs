@@ -32,18 +32,9 @@ namespace WaterAssetRestorer.Patches
     [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.FinishGeneratingNewLevelClientRpc))]
     public class WaterSwap
     {
-        static bool skipHost = true;
         [HarmonyPostfix]
         public static void SwapWaterMaterials()
         {
-            
-            //only individual clients need to swap, the host does not (though they'd just run the swap twice without this which is harmless)
-            if (skipHost)
-            {
-                WaterAssetRestorer.Logger.LogDebug("host, skipping water material swap.");
-                skipHost = false;
-                return;
-            }
             WaterAssetRestorer.Logger.LogInfo("Swapping water materials...");
             WaterSet.SET_material("Water_mat_04", WaterInit.WAR_company_flooded);
             WaterSet.SET_material("CaveWater", WaterInit.WAR_cave);
