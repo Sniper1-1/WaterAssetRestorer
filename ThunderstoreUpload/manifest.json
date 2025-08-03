@@ -1,6 +1,6 @@
 {
 	"name":"WaterAssetRestorer",
-	"version_number": "1.0.0",
+	"version_number": "1.0.1",
 	"website_url":"https://github.com/Sniper1-1/WaterAssetRestorer.git",
 	"description":"Lets moon/interior devs use some of the vanilla water materials that get broken during ripping game files into Unity.",
 	"dependencies":[

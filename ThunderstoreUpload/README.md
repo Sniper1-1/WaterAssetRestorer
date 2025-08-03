@@ -2,6 +2,13 @@
 # WaterAssetRestorer
 Moon and interior devs are likely familiar with how poorly the water assets rip when trying to design their levels. I made this tool to attempt to restore some at runtime. It currenlty can restore the Cave water, the Pool water, and the Gordion/Flooded water. Unfortunately due to the water on Vow, March, and Adamance only existing within those moon scenes, I could not access it at the start of the game to save to be restored later. For that water, I would recommend something like the one dopadream made, which is linked below. ([My thread in the LC Modding Discord](https://discord.com/channels/1168655651455639582/1245084720614604873))
 
+This mod works by searching through a moon after it is loaded to replace the following material names, so you can just copy the one in the Unity editor. It'll be broken in your project but assuming the name remains the same, it'll be replaced in-game.
+| Mat name    | description |
+| -------- | ------- |
+| Water_mat_04  | The water on Gordion/flooded weather    |
+| PoolWater | The water in the mansion pool tile     |
+| CaveWater    | The water in the cave water tile    |
+
 ---
 
 
