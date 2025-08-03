@@ -19,6 +19,7 @@ namespace WaterAssetRestorer
             Patch();
 
             Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} v{MyPluginInfo.PLUGIN_VERSION} has loaded!");
+            Logger.LogInfo("\"When you want something you don't have, W.A.R. can get it!\" - idk, someone probably");
         }
 
         internal static void Patch()
